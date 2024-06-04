@@ -6,9 +6,9 @@ class Nafeza_Prayer_Time_Widget extends WP_Widget {
     public function __construct() {
         $widget_details = array( 
             'classname' => 'nafeza_prayer_time_widget', 
-            'description' => esc_attr__( 'Widget for Prayer Time', 'nafeza-prayer-time' ) 
+            'description' => esc_html__( 'Widget for Prayer Time', 'nafeza-prayer-time' ) 
         );
-        parent::__construct( 'nafeza_prayer_time_widget', esc_attr__( 'Prayer Times From Nafeza', 'nafeza-prayer-time' ), $widget_details );
+        parent::__construct( 'nafeza_prayer_time_widget', esc_html__( 'Prayer Times From Nafeza', 'nafeza-prayer-time' ), $widget_details );
     }
 
     public function form( $instance ) {
@@ -16,7 +16,7 @@ class Nafeza_Prayer_Time_Widget extends WP_Widget {
         ?>
 <p>
   <label
-    for="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>"><?php esc_attr_e( 'Title:', 'nafeza-prayer-time' ); ?></label>
+    for="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>"><?php esc_html_e( 'Title:', 'nafeza-prayer-time' ); ?></label>
   <input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>"
     name="<?php echo esc_attr( $this->get_field_name( 'title' ) ); ?>" type="text"
     value="<?php echo esc_attr( $title ); ?>">

@@ -3,7 +3,7 @@ Contributors: nafeza.net, Hussam Barbour
 Tags: religious, prayer, ezan, muslim, islam, salat, mosque, masjid, worship, أوقات, الصلاة, أذان
 Requires at least: 4.6
 Tested up to: 6.5.3
-Stable tag: 1.3.0
+Stable tag: 1.3.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
