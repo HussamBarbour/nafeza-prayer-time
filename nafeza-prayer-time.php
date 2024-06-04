@@ -4,7 +4,7 @@
   Plugin Name:  Nafeza Prayer Time
   Plugin URI:   http://nafeza.net/
   Description:  Prayer times all over the world
-  Version:      1.2.9
+  Version:      1.3.0
   Author:       Hussam Barbour
   Author URI:   http://nafeza.net/
   Text Domain:  nafeza-prayer-time

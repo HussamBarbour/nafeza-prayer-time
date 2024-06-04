@@ -4,42 +4,43 @@ defined('ABSPATH') or die('No script kiddies please!'); // Exit if accessed dire
 function nafeza_prayer_times_data()
 {
     if (get_option('nafeza_prayer_time_setting_fixed_location')) :
-        $latitude       = (get_option('nafeza_prayer_time_setting_latitude') != '') ? get_option('nafeza_prayer_time_setting_latitude') : '41.011561';
-        $longitude      = (get_option('nafeza_prayer_time_setting_longitude') != '') ? get_option('nafeza_prayer_time_setting_longitude') : '29.039444';
-        $location_info  = json_decode(wp_remote_retrieve_body(wp_remote_get('http://api.aladhan.com/timings/' . time() . '?latitude=' . $latitude . '&longitude=' . $longitude)));
-        $timezone       = isset($location_info->data->meta->timezone) ? $location_info->data->meta->timezone : 'Europe/Istanbul';
-        $city           = get_option('nafeza_prayer_time_setting_city', 'Istanbul');
-        $country        = get_option('nafeza_prayer_time_setting_country', 'Turkey');
+        $latitude = esc_attr(get_option('nafeza_prayer_time_setting_latitude', '41.011561'));
+        $longitude = esc_attr(get_option('nafeza_prayer_time_setting_longitude', '29.039444'));
+        $location_info = json_decode(wp_remote_retrieve_body(wp_remote_get('http://api.aladhan.com/timings/' . time() . '?latitude=' . $latitude . '&longitude=' . $longitude)));
+        $timezone = isset($location_info->data->meta->timezone) ? esc_attr($location_info->data->meta->timezone) : 'Europe/Istanbul';
+        $city = esc_attr(get_option('nafeza_prayer_time_setting_city', 'Istanbul'));
+        $country = esc_attr(get_option('nafeza_prayer_time_setting_country', 'Turkey'));
     else :
-        $ip_info        = wp_remote_get('https://get.geojs.io/v1/ip/geo/' . nafeza_prayer_time_get_the_user_ip() . '.json');
-        $ip_info_body   = wp_remote_retrieve_body($ip_info);
-        $result = json_decode( $ip_info_body );
+        $ip_info = wp_remote_get('https://get.geojs.io/v1/ip/geo/' . nafeza_prayer_time_get_the_user_ip() . '.json');
+        $ip_info_body = wp_remote_retrieve_body($ip_info);
+        $result = json_decode($ip_info_body);
 
-        $latitude       = isset($result->latitude) ? $result->latitude : '41.011561';
-        $longitude      = isset($result->longitude) ? $result->longitude : '29.039444';
-        $timezone       = ($result->countryCode != '') ? $result->timezone : 'Europe/Istanbul';
-        $city           = isset($result->region) ? $result->region : 'Istanbul';
-        $country        = isset($result->country) ? $result->country : 'Turkey';
+        $latitude = isset($result->latitude) ? esc_attr($result->latitude) : '41.011561';
+        $longitude = isset($result->longitude) ? esc_attr($result->longitude) : '29.039444';
+        $timezone = ($result->countryCode != '') ? esc_attr($result->timezone) : 'Europe/Istanbul';
+        $city = isset($result->region) ? esc_attr($result->region) : 'Istanbul';
+        $country = isset($result->country) ? esc_attr($result->country) : 'Turkey';
     endif;
-    $method     = get_option('nafeza_prayer_time_setting_method') ? get_option('nafeza_prayer_time_setting_method') : '1';
-    $school     = get_option('nafeza_prayer_time_setting_school') ? get_option('nafeza_prayer_time_setting_school') : '0';
+    $method = esc_attr(get_option('nafeza_prayer_time_setting_method', '1'));
+    $school = esc_attr(get_option('nafeza_prayer_time_setting_school', '0'));
 
     date_default_timezone_set($timezone);
     $date = time();
-    $date_format = date('H:i', time());
+    $date_format = date('H:i', $date);
 
-    $prayer_info    = wp_remote_retrieve_body(wp_remote_get('http://api.aladhan.com/timings/' . $date . '?latitude=' . $latitude . '&longitude=' . $longitude . '&timezonestring=' . $timezone . '&method=' . $method . '&school=' . $school . ''));
-    $prayer_data    = json_decode($prayer_info);
-    $data           = $prayer_data->data->timings;
-    $data->city     = $city;
-    $data->country  = $country;
-    $data->Fajr     = na_pt_update_time($data->Fajr, get_option('nafeza_prayer_time_setting_fajr_difference', 0));
-    $data->Sunrise  = na_pt_update_time($data->Sunrise, get_option('nafeza_prayer_time_setting_sunrise_difference', 0));
-    $data->Dhuhr    = na_pt_update_time($data->Dhuhr, get_option('nafeza_prayer_time_setting_duhur_difference', 0));
-    $data->Asr      = na_pt_update_time($data->Asr, get_option('nafeza_prayer_time_setting_asr_difference', 0));
-    $data->Maghrib  = na_pt_update_time($data->Maghrib, get_option('nafeza_prayer_time_setting_maghrib_difference', 0));
-    $data->Isha     = na_pt_update_time($data->Isha, get_option('nafeza_prayer_time_setting_isha_difference', 0));
-    $data->Imsak    = na_pt_update_time($data->Imsak, get_option('nafeza_prayer_time_setting_imsak_difference', 0));
+    $prayer_info = wp_remote_retrieve_body(wp_remote_get('http://api.aladhan.com/timings/' . $date . '?latitude=' . $latitude . '&longitude=' . $longitude . '&timezonestring=' . $timezone . '&method=' . $method . '&school=' . $school));
+    $prayer_data = json_decode($prayer_info);
+
+    $data = $prayer_data->data->timings;
+    $data->city = $city;
+    $data->country = $country;
+    $data->Fajr = na_pt_update_time($data->Fajr, get_option('nafeza_prayer_time_setting_fajr_difference', 0));
+    $data->Sunrise = na_pt_update_time($data->Sunrise, get_option('nafeza_prayer_time_setting_sunrise_difference', 0));
+    $data->Dhuhr = na_pt_update_time($data->Dhuhr, get_option('nafeza_prayer_time_setting_duhur_difference', 0));
+    $data->Asr = na_pt_update_time($data->Asr, get_option('nafeza_prayer_time_setting_asr_difference', 0));
+    $data->Maghrib = na_pt_update_time($data->Maghrib, get_option('nafeza_prayer_time_setting_maghrib_difference', 0));
+    $data->Isha = na_pt_update_time($data->Isha, get_option('nafeza_prayer_time_setting_isha_difference', 0));
+    $data->Imsak = na_pt_update_time($data->Imsak, get_option('nafeza_prayer_time_setting_imsak_difference', 0));
 
     $datetime1 = new DateTime($date_format);
     if ($date_format < $data->Fajr) :
@@ -79,7 +80,10 @@ function nafeza_prayer_times_data()
 
 function na_pt_update_time($time, $update)
 {
-    $endTime = strtotime($update . "minutes", strtotime($time));
+    if (!$update) {
+        $update  = 0;
+    }
+    $endTime = strtotime($update . " minutes", strtotime($time));
     return date('H:i', $endTime);
 }
 
@@ -102,22 +106,16 @@ function nafeza_prayer_time_setting_scripts()
 add_action('admin_enqueue_scripts', 'nafeza_prayer_time_setting_scripts');
 
 
-function  nafeza_prayer_time_get_the_user_ip()
+function nafeza_prayer_time_get_the_user_ip()
 {
-
     if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
-
-        //check ip from share internet
-
-        $ip = $_SERVER['HTTP_CLIENT_IP'];
+        // Check IP from share internet
+        $ip = sanitize_text_field($_SERVER['HTTP_CLIENT_IP']);
     } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-
-        //to check ip is pass from proxy
-
-        $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+        // To check IP is pass from proxy
+        $ip = sanitize_text_field($_SERVER['HTTP_X_FORWARDED_FOR']);
     } else {
-
-        $ip = $_SERVER['REMOTE_ADDR'];
+        $ip = sanitize_text_field($_SERVER['REMOTE_ADDR']);
     }
 
     return $ip;
