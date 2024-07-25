@@ -197,26 +197,25 @@ function nafeza_prayer_time_setting_callback_method()
         13 => esc_html__('Directorate of Religious Affairs, Turkey', 'nafeza-prayer-time')
     );
 ?>
-<select name="nafeza_prayer_time_setting_method" id="nafeza_prayer_time_setting_method">
-  <?php foreach ($methods as $key => $value) : ?>
-  <option value="<?php echo esc_attr($key); ?>"
-    <?php selected(get_option('nafeza_prayer_time_setting_method'), $key); ?>>
-    <?php echo esc_html($value); ?>
-  </option>
-  <?php endforeach; ?>
-</select>
+    <select name="nafeza_prayer_time_setting_method" id="nafeza_prayer_time_setting_method">
+        <?php foreach ($methods as $key => $value) : ?>
+            <option value="<?php echo esc_attr($key); ?>" <?php selected(get_option('nafeza_prayer_time_setting_method'), $key); ?>>
+                <?php echo esc_html($value); ?>
+            </option>
+        <?php endforeach; ?>
+    </select>
 <?php
 }
 
 function nafeza_prayer_time_setting_callback_school()
 {
 ?>
-<select name="nafeza_prayer_time_setting_school" id="nafeza_prayer_time_setting_school">
-  <option value="0" <?php selected(get_option('nafeza_prayer_time_setting_school'), 0); ?>>
-    <?php esc_html_e('Shafei', 'nafeza-prayer-time'); ?></option>
-  <option value="1" <?php selected(get_option('nafeza_prayer_time_setting_school'), 1); ?>>
-    <?php esc_html_e('Hanafi', 'nafeza-prayer-time'); ?></option>
-</select>
+    <select name="nafeza_prayer_time_setting_school" id="nafeza_prayer_time_setting_school">
+        <option value="0" <?php selected(get_option('nafeza_prayer_time_setting_school'), 0); ?>>
+            <?php esc_html_e('Shafei', 'nafeza-prayer-time'); ?></option>
+        <option value="1" <?php selected(get_option('nafeza_prayer_time_setting_school'), 1); ?>>
+            <?php esc_html_e('Hanafi', 'nafeza-prayer-time'); ?></option>
+    </select>
 <?php
 }
 
@@ -248,32 +247,32 @@ function nafeza_prayer_time_setting_callback_country()
 function nafeza_prayer_time_setting_callback_time_format()
 {
 ?>
-<select name="nafeza_prayer_time_setting_time_format" id="nafeza_prayer_time_setting_time_format">
-  <option value="24" <?php selected(get_option('nafeza_prayer_time_setting_time_format'), 24); ?>>24</option>
-  <option value="12" <?php selected(get_option('nafeza_prayer_time_setting_time_format'), 12); ?>>12</option>
-</select>
+    <select name="nafeza_prayer_time_setting_time_format" id="nafeza_prayer_time_setting_time_format">
+        <option value="24" <?php selected(get_option('nafeza_prayer_time_setting_time_format'), 24); ?>>24</option>
+        <option value="12" <?php selected(get_option('nafeza_prayer_time_setting_time_format'), 12); ?>>12</option>
+    </select>
 <?php
 }
 
 function nafeza_prayer_time_options_page()
 {
 ?>
-<div class="wrap">
-  <h2><?php esc_html_e('Prayer Times Settings', 'nafeza-prayer-time'); ?></h2>
-  <form action="options.php" method="POST">
-    <?php settings_fields('nafeza_prayer_time_setting_section'); ?>
-    <?php do_settings_sections('nafeza_prayer_time_admin_page'); ?>
-    <?php submit_button(); ?>
-  </form>
-  <hr />
-  <form action="options.php" method="POST">
-    <?php settings_fields('nafeza_prayer_time_setting_difference'); ?>
-    <?php do_settings_sections('nafeza_prayer_time_admin_page2'); ?>
-    <?php submit_button(); ?>
-  </form>
-  <hr />
-  <div> Shortcode : <input value="[nafeza_prayer_times]" readonly /></div>
-</div>
+    <div class="wrap">
+        <h2><?php esc_html_e('Prayer Times Settings', 'nafeza-prayer-time'); ?></h2>
+        <form action="options.php" method="POST">
+            <?php settings_fields('nafeza_prayer_time_setting_section'); ?>
+            <?php do_settings_sections('nafeza_prayer_time_admin_page'); ?>
+            <?php submit_button(); ?>
+        </form>
+        <hr />
+        <form action="options.php" method="POST">
+            <?php settings_fields('nafeza_prayer_time_setting_difference'); ?>
+            <?php do_settings_sections('nafeza_prayer_time_admin_page2'); ?>
+            <?php submit_button(); ?>
+        </form>
+        <hr />
+        <div> Shortcode : <input value="[nafeza_prayer_times]" readonly /></div>
+    </div>
 <?php
 }
 
@@ -284,7 +283,7 @@ function nafeza_prayer_time_setting_callback_notification()
 
 function nafeza_prayer_time_setting_callback_notification_icon()
 {
-    $icon_url = (get_option('nafeza_prayer_time_setting_notification_icon') != '' && get_option('nafeza_prayer_time_setting_notification_icon')) ? esc_url(get_option('nafeza_prayer_time_setting_notification_icon')) : 'https://ps.w.org/nafeza-prayer-time/assets/icon-128x128.png';
+    $icon_url = (get_option('nafeza_prayer_time_setting_notification_icon') != '' && get_option('nafeza_prayer_time_setting_notification_icon')) ? get_option('nafeza_prayer_time_setting_notification_icon') : 'https://ps.w.org/nafeza-prayer-time/assets/icon-128x128.png';
     echo '<button type="button" class="button-secondary" id="upload-icon">' . esc_html__('Upload Icon', 'nafeza-prayer-time') . '</button> <input name="nafeza_prayer_time_setting_notification_icon" id="nafeza_prayer_time_setting_notification_icon" type="text" value="' . esc_attr(get_option('nafeza_prayer_time_setting_notification_icon')) . '" /> <button type="button" class="button-secondary" id="delete-icon">' . esc_html__('Delete') . '</button> <div><img id="nafeza_prayer_time_icon_img" src="' . esc_url($icon_url) . '" /></div>';
 }
 

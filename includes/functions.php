@@ -4,25 +4,25 @@ defined('ABSPATH') or die('No script kiddies please!'); // Exit if accessed dire
 function nafeza_prayer_times_data()
 {
     if (get_option('nafeza_prayer_time_setting_fixed_location')) :
-        $latitude = esc_html(get_option('nafeza_prayer_time_setting_latitude', '41.011561'));
-        $longitude = esc_html(get_option('nafeza_prayer_time_setting_longitude', '29.039444'));
+        $latitude = get_option('nafeza_prayer_time_setting_latitude', '41.011561');
+        $longitude = get_option('nafeza_prayer_time_setting_longitude', '29.039444');
         $location_info = json_decode(wp_remote_retrieve_body(wp_remote_get('http://api.aladhan.com/timings/' . time() . '?latitude=' . $latitude . '&longitude=' . $longitude)));
-        $timezone = isset($location_info->data->meta->timezone) ? esc_html($location_info->data->meta->timezone) : 'Europe/Istanbul';
-        $city = esc_html(get_option('nafeza_prayer_time_setting_city', 'Istanbul'));
-        $country = esc_html(get_option('nafeza_prayer_time_setting_country', 'Turkey'));
+        $timezone = isset($location_info->data->meta->timezone) ? $location_info->data->meta->timezone : 'Europe/Istanbul';
+        $city = get_option('nafeza_prayer_time_setting_city', 'Istanbul');
+        $country = get_option('nafeza_prayer_time_setting_country', 'Turkey');
     else :
         $ip_info = wp_remote_get('https://get.geojs.io/v1/ip/geo/' . nafeza_prayer_time_get_the_user_ip() . '.json');
         $ip_info_body = wp_remote_retrieve_body($ip_info);
         $result = json_decode($ip_info_body);
 
-        $latitude = isset($result->latitude) ? esc_html($result->latitude) : '41.011561';
-        $longitude = isset($result->longitude) ? esc_html($result->longitude) : '29.039444';
-        $timezone = ($result->countryCode != '') ? esc_html($result->timezone) : 'Europe/Istanbul';
-        $city = isset($result->region) ? esc_html($result->region) : 'Istanbul';
-        $country = isset($result->country) ? esc_html($result->country) : 'Turkey';
+        $latitude = isset($result->latitude) ? $result->latitude : '41.011561';
+        $longitude = isset($result->longitude) ? $result->longitude : '29.039444';
+        $timezone = ($result->countryCode != '') ? $result->timezone : 'Europe/Istanbul';
+        $city = isset($result->region) ? $result->region : 'Istanbul';
+        $country = isset($result->country) ? $result->country : 'Turkey';
     endif;
-    $method = esc_html(get_option('nafeza_prayer_time_setting_method', '1'));
-    $school = esc_html(get_option('nafeza_prayer_time_setting_school', '0'));
+    $method = get_option('nafeza_prayer_time_setting_method', '1');
+    $school = get_option('nafeza_prayer_time_setting_school', '0');
 
     date_default_timezone_set($timezone);
     $date = time();
